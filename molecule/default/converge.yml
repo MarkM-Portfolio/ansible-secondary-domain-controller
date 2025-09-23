@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include secondary_dc"
+      include_role:
+        name: "secondary_dc"

@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: Mark Mon Monteros
+  description: Secondary DC Configuration Role
+  company: NTTData
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Windows
+      versions:
+        - "2019"
+  galaxy_tags:
+    - secondary_dc
+dependencies: []

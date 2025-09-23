@@ -1,0 +1,30 @@
+---
+role_name_check: 1
+dependency:
+  name: galaxy
+driver:
+  name: ec2
+platforms:
+  - name: WIN2022-DC
+    tags:
+      Name: secondary_dc-ansible-molecule
+      ansible_group: secondary_dc
+    image_owner: '801119661308'
+    image_name: 'Windows_Server-2022-English-Full-Base-2022.07.13'
+    instance_type: t3.medium
+    vpc_subnet_id: 'subnet-011c84f0aa1ff4f27'
+    region: eu-west-2
+    assign_public_ip: False
+    security_groups:
+      - eu-west-2-cutover-test-sg-20220314182735604900000003
+    connection_options:
+      ansible_connection: aws_ssm
+      ansible_aws_ssm_bucket_name: 093887375120-test-bucket
+      ansible_aws_ssm_region: eu-west-2
+      aws_s3_region: eu-west-2
+
+provisioner:
+  name: ansible
+
+verifier:
+  name: ansible

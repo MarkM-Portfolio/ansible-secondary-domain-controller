@@ -1,0 +1,93 @@
+---
+- name: Set hostname
+  ansible.windows.win_hostname:
+    name: "{{ hostname }}"
+  register: hostname
+
+- name: Install Windows Features
+  ansible.windows.win_feature:
+    name: "{{ item }}"
+    state: present
+    include_sub_features: yes
+    include_management_tools: yes
+  loop:
+    - AD-Domain-Services
+    - DNS
+
+- name: Reboot
+  ansible.windows.win_reboot:
+  when: hostname.reboot_required
+
+# - name: Disable Domain firewall
+#   community.windows.win_firewall:
+#     state: disabled
+#     profiles:
+#       - Domain
+#       - Private
+#       - Public
+#   tags: disable_firewall
+
+# - name: Reboot
+#   ansible.windows.win_reboot:
+#     post_reboot_delay: 300 # 5 minutes
+
+# - name: Wait for the reboot to complete
+#   wait_for_connection:
+#     connect_timeout: 20
+#     sleep: 5
+#     delay: 5  
+#     timeout: 600
+
+# - name: Pause for 10 minutes
+#   ansible.builtin.pause:
+#     minutes: 10
+
+# - name: Join the {{ domain }} domain
+#   block:
+#     - name: Domain join the primary DC
+#       ansible.windows.win_domain_membership:
+#         dns_domain_name: "{{ new_domain }}"
+#         hostname: "{{ hostname }}"
+#         domain_admin_user: "{{ username }}"
+#         domain_admin_password: "{{ adminpassword }}"
+#         state: domain
+
+#     - name: Reboot after domain join
+#       ansible.windows.win_reboot:
+#         post_reboot_delay: 300 # 5 minutes
+
+#     - name: Wait for the reboot to complete
+#       wait_for_connection:
+#         connect_timeout: 20
+#         sleep: 5
+#         delay: 5  
+#         timeout: 600
+
+#   when: not ansible_facts['windows_domain_member']
+
+# - name: Ensure a server is a domain controller
+#   block:
+#     - name: Promote to domain controller
+#       ansible.windows.win_domain_controller:
+#         dns_domain_name: "{{ new_domain }}"
+#         domain_admin_user: "{{ username }}"
+#         domain_admin_password: "{{ adminpassword }}"
+#         safe_mode_password: "{{ adminpassword }}"
+#         state: domain_controller
+#       async: 2400 # 20 minutes
+#       poll: 60 # 1 minute
+      
+#     - name: Pause for 5 minutes to build secondary DC
+#       ansible.builtin.pause:
+#         minutes: 5
+
+#     - name: Reboot after promotion
+#       ansible.windows.win_reboot:
+#   when: ansible_facts['windows_domain_role'] == 'Stand-alone server'
+
+- name: Disable Administrator account
+  ansible.windows.win_user:
+    name: Administrator
+    state: present
+    account_disabled: yes
+    

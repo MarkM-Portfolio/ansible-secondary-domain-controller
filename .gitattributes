@@ -1,0 +1,12 @@
+**/converge.yml linguist-language=Ansible linguist-vendored=false
+**/create.yml linguist-language=Ansible linguist-vendored=false
+**/destroy.yml linguist-language=Ansible linguist-vendored=false
+**/main.yml linguist-language=Ansible linguist-vendored=false
+**/molecule.yml linguist-language=Ansible linguist-vendored=false
+**/prepare.yml linguist-language=Ansible linguist-vendored=false
+**/verify.yml linguist-language=Ansible linguist-vendored=false
+*.gitattributes linguist-language=Git linguist-vendored=false
+*.gitignore linguist-language=Git linguist-vendored=false
+*.md linguist-language=Markdown linguist-vendored=false
+*.rst linguist-language=Rst linguist-vendored=false
+*.yml linguist-language=YAML linguist-vendored=false
